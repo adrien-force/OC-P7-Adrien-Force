@@ -1,0 +1,63 @@
+@startuml
+
+class Task {
+    -int id
+    -string title
+    -string description
+    -date deadline
+    -int employee_id
+    -int status_id
+    -int project_id
+}
+
+class Timeslot {
+    -int id
+    -int task_id
+    -int employee_id
+    -datetime start
+    -datetime end
+}
+
+class Status {
+    -int id
+    -string name
+    -int project_id
+}
+
+class Project {
+    -int id
+    -string name
+    -date start_date
+    -date deadline
+    -bool archive
+}
+
+class Label {
+    -int id
+    -string name
+    -int project_id
+}
+
+class Employee {
+    -int id
+    -string last_name
+    -string first_name
+    -string email
+    -int role
+    -string contract
+    -date start_date
+    -bool active
+    -string password
+}
+
+Task "1" -- "0..*" Timeslot : id
+Task "1" -- "1" Status : status_id
+Task "1" -- "1" Project : project_id
+Timeslot "1" -- "0..*" Employee : employee_id
+Status "1" -- "0..*" Project : project_id
+Label "0..*" -- "0..*" Task : has
+Label "1" -- "0..*" Project : project_id
+Project "0..*" -- "0..*" Employee : has
+Task "1" -- "0..*" Employee : employee_id
+
+@enduml

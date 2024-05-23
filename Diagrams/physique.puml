@@ -1,0 +1,78 @@
+@startuml
+
+!includeurl https://raw.githubusercontent.com/plantuml/plantuml/master/themes/puml-theme-sunlust.puml
+
+
+entity "task_label" as task_label {
+    + task_id : int
+    + label_id : int
+}
+
+entity "task" as task {
+    + id : int
+    + title : varchar(255)
+    + description : text
+    + deadline : date
+    + employee_id : int
+    + status_id : int
+    + project_id : int
+}
+
+entity "timeslot" as timeslot {
+    + id : int
+    + task_id : int
+    + employee_id : int
+    + start : datetime
+    + end : datetime
+}
+
+entity "status" as status {
+    + id : int
+    + name : varchar(255)
+    + project_id : int
+}
+
+entity "project" as project {
+    + id : int
+    + name : varchar(255)
+    + start_date : date
+    + deadline : date
+    + archive : tinyint
+}
+
+entity "label" as label {
+    + id : int
+    + name : varchar(255)
+    + project_id : int
+}
+
+entity "project_employee" as project_employee {
+    + project_id : int
+    + employee_id : int
+}
+
+entity "employee" as employee {
+    + id : int
+    + last_name : varchar(255)
+    + first_name : varchar(255)
+    + email : varchar(255)
+    + role : int
+    + contract : varchar(255)
+    + start_date : date
+    + active : tinyint
+    + password : varchar(255)
+}
+
+task_label }|..|| task : "task_id"
+task_label }|..|| label : "label_id"
+task }o--|| timeslot : "id"
+task }|--|| status : "status_id"
+task }|--|| project : "project_id"
+timeslot }|--|| employee : "employee_id"
+status }|--|| project : "project_id"
+label }|--|| project : "project_id"
+project_employee }|--|| project : "project_id"
+project_employee }|--|| employee : "employee_id"
+task }|--|| employee : "employee_id"
+
+@enduml
